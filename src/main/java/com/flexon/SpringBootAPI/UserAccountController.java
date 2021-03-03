@@ -1,5 +1,6 @@
 package com.flexon.SpringBootAPI;
 
+import java.sql.ResultSet;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,7 @@ public class UserAccountController {
 	UserAccountDAO userDAO = new UserAccountDAO();
 	
 	@GetMapping(path="/studentDetails")
-	public ArrayList<UserAccount> orderDetails() {
+	public ArrayList<String> orderDetails() {
 		return userDAO.readUsers();
 	}
 	
@@ -30,15 +31,14 @@ public class UserAccountController {
 	
 	@GetMapping(path="/hello")
 	public String hello() {
-		return "This is Deep and its not in JSON format";
+		return "This is Jerome and its not in JSON format";
 		
 	}
 	
-	@PostMapping(path="/createNewStudent")
-	public String createNewUser(@RequestBody UserAccount newUser) {
-		userDAO.createUser(newUser);
-		return "User added - " + newUser.getFirstName();
+	@GetMapping(path="/createNewStudent")
+	public String createNewUser() {
+		userDAO.createUser();
+		return "User added";
 	}
-
 
 }
