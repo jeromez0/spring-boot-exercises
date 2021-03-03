@@ -14,31 +14,42 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class UserAccountController {
-	
+
 	@Autowired
 	UserAccountDAO userDAO = new UserAccountDAO();
-	
-	@GetMapping(path="/studentDetails")
-	public ArrayList<String> orderDetails() {
-		return userDAO.readUsers();
-	}
-	
-	@GetMapping(path="/studentDetails/{studentName}")
-	@ResponseStatus(code = HttpStatus.OK)
-	public void getStudentDetails(@PathVariable String studentName) {
-		
-	}
-	
-	@GetMapping(path="/hello")
+
+	@GetMapping(path = "/hello")
 	public String hello() {
 		return "This is Jerome and its not in JSON format";
-		
 	}
-	
-	@GetMapping(path="/createNewStudent")
+
+	@GetMapping(path = "/createNewStudent")
 	public String createNewUser() {
 		userDAO.createUser();
 		return "User added";
+	}
+
+	@GetMapping(path = "/studentDetails")
+	public ArrayList<UserAccount> orderDetails() {
+		return userDAO.readUsers();
+	}
+
+	@GetMapping(path = "/studentDetails/{studentID}")
+	@ResponseStatus(code = HttpStatus.OK)
+	public ArrayList<UserAccount> getStudentDetails(@PathVariable int studentID) {
+		return userDAO.readUser(studentID);
+	}
+
+	@GetMapping(path = "/updateStudent/{studentID}")
+	public String updateUser(@PathVariable int studentID) {
+		userDAO.updateUser("Mister Awesome", studentID);
+		return "User updated; new name is: Mister Awesome";
+	}
+
+	@GetMapping(path = "/deleteStudent/{studentID}")
+	public String deleteUser(@PathVariable int studentID) {
+		userDAO.deleteUser(studentID);
+		return "User number: " + studentID + " has been deleted.";
 	}
 
 }
